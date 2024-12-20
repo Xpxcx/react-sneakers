@@ -5,11 +5,17 @@ import Home from './pages/Home';
 import Header from './components/Header';
 import Drawer from './components/Drawer';
 import Favorites from './pages/Favorites';
+
+
+const AppContext = React.createContext({});
+
+console.log(AppContext)
 function App() {
   const [items, setItems] = React.useState([])
   const [cartOpened, setCartOpened] = React.useState(false);
   const [cartItems, setCartItems] = React.useState([]);
   const [searchValue, setSearchValue] = React.useState('');
+  const [isLoading, setIsLoading] = React.useState(true);
 
 
   
@@ -18,6 +24,8 @@ function App() {
     const cartResponse = await axios.get('https://6740a8b5d0b59228b7f0e3c0.mockapi.io/cart');
     const itemsResponse = await axios.get('https://6740a8b5d0b59228b7f0e3c0.mockapi.io/items');
     
+    setIsLoading(false);
+
     setItems(itemsResponse.data);
     setCartItems(cartResponse.data);
   }
@@ -92,6 +100,7 @@ function App() {
               onChangeSearchInput={onChangeSearchInput}
               onAppToCart={onAppToCart}
               onAddFavorite={onAddFavorite}
+              isLoading={isLoading}
             />
           }
         />
