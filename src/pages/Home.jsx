@@ -1,6 +1,6 @@
 import Card from '../components/Card'
 
-function Home({items, searchValue, onChangeSearchInput, setSearchValue, onAppToCart, onRemoveFavorite, onAddFavorite}) {
+function Home({items, searchValue, onChangeSearchInput, setSearchValue, onAppToCart, onRemoveFavorite, onAddFavorite, cartItems}) {
 
     return  (
     
@@ -11,7 +11,7 @@ function Home({items, searchValue, onChangeSearchInput, setSearchValue, onAppToC
           
           {searchValue && <img onClick={() => setSearchValue('')} width={32} height={32} src="/img/btn-delete.svg" className="removeSearch" alt="Delete"/>}
           <img src="/img/search.svg" className="search-icon" alt="searchImg"/>
-          <input onChange={onChangeSearchInput} value={searchValue} placeholder="Поиск"></input>
+          <input onChange={onChangeSearchInput} v alue={searchValue} placeholder="Поиск"></input>
         </div>
         </div>
       
@@ -24,6 +24,8 @@ function Home({items, searchValue, onChangeSearchInput, setSearchValue, onAppToC
             {...item}
             onFavorite={(item) => onAddFavorite(item)}
             onPlus={(item) => onAppToCart(item)} 
+            added={cartItems.some(obj => Number(obj.id) === Number(item.id))}
+            loading = {true}
           />
           
           ))}
