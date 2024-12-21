@@ -52,7 +52,7 @@ function App() {
         alert('Не удалось добавить в корзину');
       }
   };
-
+  const totalPrice = cartItems.reduce((sum, obj) => obj.price + sum, 0);
   const onAddFavorite = (obj) => {
     try {
     const checkFavorite = cartItems.some(item => Number(item.id) === Number(obj.id));
@@ -60,7 +60,7 @@ function App() {
 
     {
       setCartItems(prev => [...prev, obj]);
-      axios.post('https://6740a8b5d0b59228b7f0e3c0.mockapi.io/cart', obj)
+      // axios.post('https://6740a8b5d0b59228b7f0e3c0.mockapi.io/cart', obj)
     }
     if(checkFavorite){
       axios.delete(`https://6740a8b5d0b59228b7f0e3c0.mockapi.io/cart/${obj.id}`);
@@ -83,7 +83,7 @@ function App() {
     return cartItems.some(obj => Number(obj.id) === Number(id))
   }
   return (
-    <AppContext.Provider value={{items, cartItems, isItemAdded, isFavoriteAdded, setCartOpened, setCartItems}}>
+    <AppContext.Provider value={{items, cartItems, isItemAdded, isFavoriteAdded, setCartOpened, setCartItems, totalPrice}}>
     <div className="wrapper">
      {cartOpened && <Drawer
       items={cartItems}
@@ -99,7 +99,6 @@ function App() {
           element={
             <Home
               items={items}
-              cartItems={cartItems}
               searchValue={searchValue}
               setSearchValue={setSearchValue}
               onChangeSearchInput={onChangeSearchInput}

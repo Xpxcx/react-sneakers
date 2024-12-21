@@ -3,9 +3,11 @@ import AppContext from "../context";
 import Info from "./info";
 function Drawer({onCloseCart, items =[], onRemove} ) {
   const [isOrderComplete, setIsOrderComplete] = React.useState(false);
-  const [orderID, setOrderID] = React.useState(null);
+  // const [orderID, setOrderID] = React.useState(null);
   const [isLoading, setIsLoading] = React.useState(false);
   const {setCartItems} = React.useContext(AppContext);
+  const {totalPrice} = React.useContext(AppContext);
+
   
   const onClickOrder = async ()  => {
     setIsLoading(true);
@@ -46,12 +48,12 @@ function Drawer({onCloseCart, items =[], onRemove} ) {
               <li>
                 <span>Итого:</span>
                 <div></div>
-                <b>21498 Руб.</b>
+                <b>{totalPrice} Руб.</b>
               </li>
               <li>
                 <span>Налог 5%:</span>
                 <div></div>
-                <b>1074 Руб.</b>
+                <b>{totalPrice * 0.05} Руб.</b>
               </li>
             </ul>
         
