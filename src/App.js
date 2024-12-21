@@ -5,11 +5,9 @@ import Home from './pages/Home';
 import Header from './components/Header';
 import Drawer from './components/Drawer';
 import Favorites from './pages/Favorites';
+import AppContext from './context';
 
 
-const AppContext = React.createContext({});
-
-console.log(AppContext)
 function App() {
   const [items, setItems] = React.useState([])
   const [cartOpened, setCartOpened] = React.useState(false);
@@ -26,8 +24,8 @@ function App() {
     
     setIsLoading(false);
 
-    setItems(itemsResponse.data);
     setCartItems(cartResponse.data);
+    setItems(itemsResponse.data);
   }
     fetchData();   
   },  [])
@@ -35,9 +33,8 @@ function App() {
 
   const onRemoveItem = (id) => {
     axios.delete(`https://6740a8b5d0b59228b7f0e3c0.mockapi.io/cart/${id}`);
-      setCartItems((prev) => prev.filter(item => Number(item.id) !== id ));
+      setCartItems((prev) => prev.filter(item => Number(item.id) !== Number(id) ));
   }
-
   const onAppToCart = (obj) => {
     try { 
       const checkCart = cartItems.some(item => Number(item.id) === Number(obj.id));
@@ -60,11 +57,12 @@ function App() {
     try {
     const checkFavorite = cartItems.some(item => Number(item.id) === Number(obj.id));
     if(!checkFavorite)
+
     {
       setCartItems(prev => [...prev, obj]);
       axios.post('https://6740a8b5d0b59228b7f0e3c0.mockapi.io/cart', obj)
     }
-    else{
+    if(checkFavorite){
       axios.delete(`https://6740a8b5d0b59228b7f0e3c0.mockapi.io/cart/${obj.id}`);
     }
     }
@@ -73,12 +71,19 @@ function App() {
     }
     };
 
+
   const onChangeSearchInput = (event) => {
     setSearchValue(event.target.value);
   }
-
+  
+  const isItemAdded = (id) => {
+    return cartItems.some(obj => Number(obj.id) === Number(id))
+  }
+  const isFavoriteAdded = (id) => {
+    return cartItems.some(obj => Number(obj.id) === Number(id))
+  }
   return (
-    
+    <AppContext.Provider value={{items, cartItems, isItemAdded, isFavoriteAdded, setCartOpened, setCartItems}}>
     <div className="wrapper">
      {cartOpened && <Drawer
       items={cartItems}
@@ -94,8 +99,8 @@ function App() {
           element={
             <Home
               items={items}
-              searchValue={searchValue}
               cartItems={cartItems}
+              searchValue={searchValue}
               setSearchValue={setSearchValue}
               onChangeSearchInput={onChangeSearchInput}
               onAppToCart={onAppToCart}
@@ -108,13 +113,14 @@ function App() {
           path="/favorites"
           element={
             <Favorites
-              items={cartItems}
               onAddFavorite={onAddFavorite}
+              onAppToCart={onAppToCart}
             />
           }
         />
       </Routes>
     </div>
+    </AppContext.Provider>
   );
 }
 

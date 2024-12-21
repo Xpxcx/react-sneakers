@@ -1,20 +1,23 @@
 import Card from "../components/Card";
 import { Link } from "react-router-dom";
-function Favorites({items, onAppToCart, onAddFavorite}) {
-
+import React from "react";
+import AppContext from "../context";
+function Favorites({onAppToCart, onAddFavorite}) {
+    const {cartItems} = React.useContext(AppContext);
+    
+    
     return  (
     <div className="favoriteItem">
-        {items.length > 0 ? (
+        {cartItems.length > 0 ? (
           <div>
           <h1>Мои закладки</h1>
             <div className='sneakers'>
-              {items.map((item) => (
+              {cartItems.map((item) => (
                 <Card 
                   key={item.id}
                   {...item}
                   onFavorite={(item) => onAddFavorite(item)}
                   onPlus={(item) => onAppToCart(item)} 
-                  favorited={true}
                 />
                 ))} 
               </div>

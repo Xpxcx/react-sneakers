@@ -1,23 +1,19 @@
 import React from 'react';
 import styles from './Card.module.scss';
 import ContentLoader from "react-content-loader"
-
-function Card({id, title, imageUrl, price, onPlus, favorited, onFavorite, added, favorite, loading}) {
-    const [isAdded, setIsAdded] = React.useState(added);
-    const[isFavorite, setIsFavorite] = React.useState(added);
-    
+import AppContext from '../../context';
+function Card({id, title, imageUrl, price, onPlus, onFavorite, loading}) {
+    const {isItemAdded} = React.useContext(AppContext);
+    const{isFavoriteAdded} = React.useContext(AppContext);
     const onClickPlus = () =>   {
         onPlus({id, title, imageUrl, price});
-        setIsAdded(!isAdded);
     }
-
-
 
     const onClickFavorite = ()  =>  {
-        setIsFavorite(!isFavorite);
+        // console.log(isFavoriteAdded(id))
         onFavorite({id, title, imageUrl, price});
     }
-  
+    
     return(
         
     <div className={styles.card}>
@@ -40,7 +36,7 @@ function Card({id, title, imageUrl, price, onPlus, favorited, onFavorite, added,
         : 
             <>
                 <div className={styles.buttonLike} onClick={onClickFavorite}>
-                    <img src={isFavorite ? '/img/liked.svg' : '/img/heart-unliked.svg' }alt="buttonHeart"/>
+                    <img src={isItemAdded(id) ? '/img/liked.svg' : '/img/heart-unliked.svg' }alt="buttonHeart"/>
                 </div>
                 <img width={133} height={112} src={imageUrl} alt='CartImg' />
                 <h5>{title}</h5>
@@ -49,7 +45,7 @@ function Card({id, title, imageUrl, price, onPlus, favorited, onFavorite, added,
                     <b className={styles.b}>{price}</b>
                 </div>
                 <div className={styles.buttonPlus} onClick={onClickPlus}>
-                    <img src={isAdded ? '/img/btnChecked.svg' : '/img/btn-plus-on.svg'} alt="buttonPlus"/>
+                    <img src={isItemAdded(id) ? '/img/btnChecked.svg' : '/img/btn-plus-on.svg'} alt="buttonPlus"/>
                 </div>  
             </>
           

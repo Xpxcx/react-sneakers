@@ -1,10 +1,25 @@
+import React from "react";
+import AppContext from "../context";
+import Info from "./info";
 function Drawer({onCloseCart, items =[], onRemove} ) {
+  const [isOrderComplete, setIsOrderComplete] = React.useState(false);
+  const [orderID, setOrderID] = React.useState(null);
+  const [isLoading, setIsLoading] = React.useState(false);
+  const {setCartItems} = React.useContext(AppContext);
+  
+  const onClickOrder = async ()  => {
+    setIsLoading(true);
+    setCartItems([]);
+    setIsOrderComplete(true);
+    setIsLoading(false);
+    console.log(isLoading);
+  }
   return(
     <div className="overlay">        
       <div className="drawer">
         <h3>Корзина <img onClick={onCloseCart} width={32} height={32} src="/img/btn-delete.svg" className="btnDelete" alt="Delete"/></h3>
         {items.length > 0 ? (
-          <div>
+          <div className="d-flex flex-column flex">
           <div className="PCI">
             {items.map((item) => (
               <div className="cartItems">
@@ -40,21 +55,13 @@ function Drawer({onCloseCart, items =[], onRemove} ) {
               </li>
             </ul>
         
-        <button className="greenButton">Оформить заказ <img src="/img/arrow.svg" alt="Arrow"/></button>
+        <button className="greenButton" disabled={isLoading} onClick={onClickOrder}>Оформить заказ <img src="/img/arrow.svg" alt="Arrow"/></button>
         </div> 
         </div>):
-        (<div className="clearCart">
-          <img src="img/clear-cart.svg" alt="clear-cart"></img>
-          <h1>Корзина пуста!</h1>
-          <div className="textClearCart">
-            <p>Добавьте хотя бы одну пару кроссовок, чтобы сделать заказ.</p>
-          </div>
-          <button 
-            onClick={onCloseCart} 
-            className="back">
-            <img src="img/back.svg" alt="backButton"/>  Вернуться назад 
-          </button>
-        </div>)
+        <Info 
+        image={isOrderComplete ? 'img/order-complete.svg' : 'img/clear-cart.svg'} 
+        title={isOrderComplete ? 'Заказ оформлен!' :'Корзина пуста!'} 
+        description={isOrderComplete ? 'Ваш заказ #18 скоро будет передан курьерской доставке' : 'Добавьте хотя бы одну пару кроссовок, чтобы сделать заказ.'}/>
         } 
       </div>
     </div>
