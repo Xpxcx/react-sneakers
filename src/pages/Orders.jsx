@@ -40,7 +40,7 @@ function Orders() {
         ) : (
           // <div className="wrapperNoLiked">
           <div className="noLiked">
-            <img width={70} height={70} src="order-img" alt=""></img>
+            <img width={70} height={70} src="/img/order-img.svg" alt=""></img>
             <div className="descrNoLiked">
               <h1>Заказов пока нет</h1>
               <p>Закажите что нибудь и они появятся!</p>

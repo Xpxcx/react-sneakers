@@ -5,9 +5,8 @@ import AppContext from '../context'
 
 function Home({searchValue, onChangeSearchInput, setSearchValue, onAppToCart, onAddFavorite,  isLoading}) {
     
-    const {items, isItemAdded, cartItems, favoriteItems} = React.useContext(AppContext);
+    const {items, isItemAdded} = React.useContext(AppContext);
     const filteredItems = items.filter((item => item.title.toLowerCase().includes(searchValue.toLowerCase())))
-    
     const renderItems = () => {
       return(isLoading ? [...Array(10)] : filteredItems).map((item, index) => (
             <Card

@@ -2,7 +2,7 @@ import React from "react";
 import AppContext from "../context";
 import Info from "./info";
 import axios from "axios";
-function Drawer({onCloseCart, items =[], onRemove} ) {
+function Drawer({onCloseCart, items =[], onRemove, opened } ) {
   const [isOrderComplete, setIsOrderComplete] = React.useState(false);
   // const [orderID, setOrderID] = React.useState(null);
   const [isLoading, setIsLoading] = React.useState(false);
