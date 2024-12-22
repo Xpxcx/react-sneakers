@@ -2,7 +2,6 @@ import React from 'react';
 import {Link} from 'react-router-dom'
 import AppContext from '../context';
 function Header({onClickCart})   {
-  const {cartItems} = React.useContext(AppContext);
   const {totalPrice} = React.useContext(AppContext);
 
     return (
@@ -22,20 +21,20 @@ function Header({onClickCart})   {
         </div>
         </Link>
         <ul className="headerRight">
-          <li onClick={onClickCart}className="l1"> <img width={18} height={18} src='/img/cart.svg' alt=""/> <span>{totalPrice} Руб.</span>
+          <li onClick={onClickCart}className="l1"> <img width={18} height={18} src='/img/cart.svg' alt=""/> <span>{totalPrice > 0 ? totalPrice + ' Руб.' : ''}</span>
           </li>
           <Link to={'/favorites'}>
           <li className="l2">
             <img src='/img/likeList.svg' alt=""/>
             <span>Избранное</span>
           </li></Link>
-          
+          <Link to={'/orders'}>
           <li className="l3">
             <img width={18} height={18} src='/img/user.svg' alt=""/>
             <span>Профиль</span>
           </li>
+          </Link>
         </ul>
-
       </header>
     );
 }

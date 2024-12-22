@@ -1,21 +1,35 @@
 import React from "react";
 import AppContext from "../context";
 import Info from "./info";
+import axios from "axios";
 function Drawer({onCloseCart, items =[], onRemove} ) {
   const [isOrderComplete, setIsOrderComplete] = React.useState(false);
   // const [orderID, setOrderID] = React.useState(null);
   const [isLoading, setIsLoading] = React.useState(false);
   const {setCartItems} = React.useContext(AppContext);
+  const {cartItems} = React.useContext(AppContext);
   const {totalPrice} = React.useContext(AppContext);
 
   
   const onClickOrder = async ()  => {
     setIsLoading(true);
+    for (const item of cartItems) {
+        const orderItem = {
+          id: item.id,
+          title: item.title,
+          imageUrl: item.imageUrl,
+          price: item.price
+        };
+        await axios.post('http://localhost:3000/orderItems', orderItem);
+        //  axios.delete(`https://6740a8b5d0b59228b7f0e3c0.mockapi.io/cart/${item.id}`)
+      }
+   
     setCartItems([]);
     setIsOrderComplete(true);
     setIsLoading(false);
-    console.log(isLoading);
   }
+
+
   return(
     <div className="overlay">        
       <div className="drawer">

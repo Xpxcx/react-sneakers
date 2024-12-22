@@ -5,7 +5,7 @@ import AppContext from '../context'
 
 function Home({searchValue, onChangeSearchInput, setSearchValue, onAppToCart, onAddFavorite,  isLoading}) {
     
-    const {items, isItemAdded, cartItems} = React.useContext(AppContext);
+    const {items, isItemAdded, cartItems, favoriteItems} = React.useContext(AppContext);
     const filteredItems = items.filter((item => item.title.toLowerCase().includes(searchValue.toLowerCase())))
     
     const renderItems = () => {
@@ -16,7 +16,7 @@ function Home({searchValue, onChangeSearchInput, setSearchValue, onAppToCart, on
             onFavorite={(item) => onAddFavorite(item)}
             onPlus={(item) => onAppToCart(item)} 
             added={!isLoading && item && isItemAdded(item.id)}
-            addedFavorite={cartItems.some(obj => Number(obj.id) === Number(item.id))}
+            // addedFavorite={favoriteItems.some(obj => Number(obj.id) === Number(item.id))}
             loading = {isLoading}
           />
           ))

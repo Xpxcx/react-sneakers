@@ -3,6 +3,7 @@ import styles from './Card.module.scss';
 import ContentLoader from "react-content-loader"
 import AppContext from '../../context';
 function Card({id, title, imageUrl, price, onPlus, onFavorite, loading}) {
+    
     const {isItemAdded} = React.useContext(AppContext);
     const{isFavoriteAdded} = React.useContext(AppContext);
     const onClickPlus = () =>   {
@@ -10,7 +11,6 @@ function Card({id, title, imageUrl, price, onPlus, onFavorite, loading}) {
     }
 
     const onClickFavorite = ()  =>  {
-        // console.log(isFavoriteAdded(id))
         onFavorite({id, title, imageUrl, price});
     }
     
@@ -36,7 +36,7 @@ function Card({id, title, imageUrl, price, onPlus, onFavorite, loading}) {
         : 
             <>
                 <div className={styles.buttonLike} onClick={onClickFavorite}>
-                    <img src={isItemAdded(id) ? '/img/liked.svg' : '/img/heart-unliked.svg' }alt="buttonHeart"/>
+                    <img src={isFavoriteAdded(id) ? '/img/liked.svg' : '/img/heart-unliked.svg' }alt="buttonHeart"/>
                 </div>
                 <img width={133} height={112} src={imageUrl} alt='CartImg' />
                 <h5>{title}</h5>
